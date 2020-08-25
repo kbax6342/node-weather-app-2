@@ -1,19 +1,38 @@
-const request = require('request')
 const geocode = require('./utils/geocode')
 const forecast = require('./utils/forecast.js')
+const readLine = require('readline')
+
+const address = process.argv[2]
+
+// const rl = readLine.createInterface({
+//     input: process.stdin,
+//     output: process.stdout
+// })
+
+// rl.question("What city would you like to look up?  ", (answer) => {
+
+//     console.log("Thank you for you valuble feeback:  " + answer)
+
+if (!address) {
+    return console.log('No address provided')
+} else {
+    geocode(address, (error, data) => {
+        if (error) {
+            return console.log(error)
+
+        }
+
+        forecast(data.latitude, data.logitude, (error, forecastData) => {
+            if (error) {
+                return console.log(error)
+            }
+            console.log(data.location)
+            console.log(forecastData)
+        })
+
+    })
+}
 
 
-
-
-forecast(-75.7088, 44.1545, (error, data) => {
-    // console.log('Error', error)
-    console.log('Data', data)
-})
-
-
-
-geocode('Detroit', (error, data) => {
-    // console.log('Error', error)
-    console.log('Data', data)
-
-})
+//     rl.close
+// })
